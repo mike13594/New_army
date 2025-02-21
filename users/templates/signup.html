@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>회원가입</title>
+    </head>
+    <body>
+        <div>
+            <form method="POST" enctype="multipart/form-data">
+                <h1>Seoul Tour</h1>
+                <hr>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">회원가입</button>
+                <a href="/user/login/">로그인 페이지로 이동</a>
+            </form>
+        </div>        
+    </body>
+</html>
