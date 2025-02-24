@@ -5,7 +5,7 @@ class Post(models.Model):
     user = models.ForeignKey("users.User",
                              verbose_name = "작성자",
                              on_delete = models.CASCADE)#유저 외래키
-    place = models.ManyToManyField("장소", related_name='related_posts')
+    place = models.ManyToManyField("seoul.Place", related_name='related_posts')
     title = models.CharField("제목", max_length= 30)
     content = models.TextField("내용")
     created = models.DateTimeField("작성일시", auto_now_add = True)
@@ -21,6 +21,10 @@ class PlaceComplete(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     place = models.ForeignKey("seoul.Place", on_delete=models.CASCADE)
     complete = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user} - {self.place} 완료 여부: {self.complete}"
+
 
 class PostImage(models.Model):
     post = models.ForeignKey(Post,

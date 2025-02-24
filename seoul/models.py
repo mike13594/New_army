@@ -6,3 +6,4 @@ class Place(models.Model):
     district = models.CharField(max_length=10)
     place_image = models.ImageField(upload_to='place_images/')
     address= models.TextField("주소")
+    description = models.TextField()
