@@ -4,7 +4,6 @@ from users.models import User
 
 class LoginForm(forms.Form):
     username = forms.CharField(
-        max_length = 20,    # 길이제한 
         min_length = 2,
         widget = forms.TextInput(
             attrs = {"placeholder":"사용자명 (2자리 이상)"},
@@ -22,8 +21,8 @@ class SignupForm(forms.Form):
     username = forms.CharField()
     password1 = forms.CharField(widget = forms.PasswordInput)
     password2 = forms.CharField(widget = forms.PasswordInput)
-    profile_image = forms.ImageField()
-    short_description = forms.CharField()
+    profile_image = forms.ImageField(required=False)
+    short_description = forms.CharField(required=False)
 
     # username 유효성 검사
     def clean_username(self):

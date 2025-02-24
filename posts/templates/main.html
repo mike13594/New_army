@@ -25,9 +25,9 @@ https://templatemo.com/tm-553-xtra-blog
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="places/">서울 명소</a></li>
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#!">로그아웃</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'user:logout' %}">로그아웃</a></li>
                         <li class="nav-item">
-                            <a class="nav-link active"  aria-current="page" href="login/">
+                            <a class="nav-link active"  aria-current="page" href="{% url 'user:login' %}">
                                 Log-in
                             </a>
                         </li>

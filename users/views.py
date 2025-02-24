@@ -56,7 +56,7 @@ def logout_view(request):
     logout(request)
 
     # logout 처리한 후 로드인 페이지로 이동
-    return redirect("login/")         
+    return redirect("/user/login/")         
 
 def signup(request):
     if request.method == "POST":
