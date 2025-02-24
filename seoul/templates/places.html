@@ -1,11 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Places of Seoul</title>
+    <title>장소 목록</title>
 </head>
 <body>
-    서울의 명소들
+    <h1>장소 목록</h1>
+    <ul>
+        {% for place in place %}
+            <li>
+                <a href="{% url 'place_detail' place.id %}">
+                    <img src="{{ place.place_image.url }}" alt="{{ place.name }}" height="100">
+                     - {{ place.district }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'main' %}">홈으로 돌아가기</a>
 </body>
 </html>

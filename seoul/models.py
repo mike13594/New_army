@@ -7,3 +7,6 @@ class Place(models.Model):
     place_image = models.ImageField(upload_to='place_images/')
     address= models.TextField("주소")
     description = models.TextField()
+
+    def __str__(self):
+        return self.name

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>{{ place.name }}</title>
+</head>
+<body>
+    <h1>{{ place.name }}</h1>
+    <img src="{{ place.place_image.url }}" alt="{{ place.name }}" width="300" height="200">
+    <p>지역: {{ place.district }}</p>
+    <p>주소: {{ place.address }}</p>
+    <p>설명: {{ place.description }}</p>
+
+    <a href="{% url 'place_list' %}">장소 목록으로 돌아가기</a>
+</body>
+</html>

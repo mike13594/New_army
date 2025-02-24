@@ -33,6 +33,7 @@ def comment_delete(request, comment_id):
         return HttpResponseForbidden("이 댓글을 삭제할 권한이 없습니다")
     
 # 여행 계획 상세보기
+
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     comment_form = CommentForm()
@@ -104,6 +105,7 @@ def place_complete(request, post_id, place_id):
     place_complete.save()
 
     return redirect("post_detail",post_id=post_id)
+
 
 # # 완료한 여행 계획 목록 (완료된 것만 공개) # 일단 만들엇는데 어디에 넣어야할지 모름
 # def post_list(request):
