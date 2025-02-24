@@ -5,10 +5,10 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Seoul Planner</title>
-	<link rel="stylesheet" href="static/posts/static/fontawesome/css/all.min.css"> <!-- https://fontawesome.com/ -->
+	<link rel="stylesheet" href="{% static 'posts/static/css/bootstrap.min.css' %}"> <!-- https://fontawesome.com/ -->
 	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
-    <link href="static/posts/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/posts/static/css/templatemo-xtra-blog.css" rel="stylesheet">
+    <link href="{% static 'posts/static/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'posts/static/css/templatemo-xtra-blog.css' %}" rel="stylesheet">
 <!--
     
 TemplateMo 553 Xtra Blog
@@ -25,9 +25,9 @@ https://templatemo.com/tm-553-xtra-blog
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="places/">서울 명소</a></li>
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#!">로그아웃</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/logout/">로그아웃</a></li>
                         <li class="nav-item">
-                            <a class="nav-link active"  aria-current="page" href="login/">
+                            <a class="nav-link active"  aria-current="page" href="/user/login/">
                                 Log-in
                             </a>
                         </li>
@@ -222,7 +222,7 @@ https://templatemo.com/tm-553-xtra-blog
             </footer>
         </main>
     </div>
-    <script src="static/posts/static/js/jquery.min.js"></script>
-    <script src="static/posts/static/js/templatemo-script.js"></script>
+    <script src="{% static 'posts/static/js/jquery.min.js' %}"></script>
+    <script src="{% static 'posts/static/js/templatemo-script.js' %}"></script>
 </body>
 </html>
