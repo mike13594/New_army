@@ -11,25 +11,7 @@
         <title>로그인</title>
     </head>
     <body>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark"> <!-- 상단 nav bar 추후 분리 예정-->
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/post/">서울 명소 탐방</a>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="places/">서울 명소</a></li>
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item"><a class="nav-link" href="/user/logout/">로그아웃</a></li>
-                            <li class="nav-item">
-                                <a class="nav-link active"  aria-current="page" href="/user/login/">
-                                    Log-in
-                                </a>
-                            </li>
-                        </ul>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
+        {% include 'nav.html' %}
         <div>
             <form method="POST" class="login-form">
                 {% csrf_token %}

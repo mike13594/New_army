@@ -76,6 +76,6 @@ def signup(request):
         form = SignupForm()
 
     context = {"form":form}
-    return render(request, "signup2.html", context)        
+    return render(request, "signup.html", context)        
 
     
