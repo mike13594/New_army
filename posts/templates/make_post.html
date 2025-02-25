@@ -1,0 +1,47 @@
+{% extends 'base_dropdown.html' %}
+
+{% block content %}
+  <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label>제목</label>
+            <input type="text" name="title">
+        </div>
+        <div>
+            <label>내용</label>
+            <textarea name="content" cols="50" rows="10"></textarea>
+        </div>
+        <div>
+          <div>
+            <label for="first">구</label>
+              <select id="first" name="first">
+                <option value="" selected="selected">구</option>
+              </select>
+          </div>
+        <div>
+          <label for="second">동</label>
+            <select id="second" name="second">
+              <option value="" selected="selected">동</option>
+            </select>
+        </div>
+          <button type="button" value="추가" id="add">추가</button>      
+        </div>
+        <div>
+          <br><div id="container"></div> <br>
+            <label>썸네일</label>
+            <input name="thumbnail" type="file">
+        </div>
+        <button type="submit" class ="btn btn-primary">작성</button>
+    </form>
+</div>
+
+<script>
+  document.getElementById('add').onclick = function() {
+    var value = document.getElementById("second").selectedOptions[0].value;
+      document.getElementById("container").innerHTML = 'The selected value is ' + value;
+  }
+</script>
+{% endblock %}
+
+</html>

@@ -1,17 +1,7 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base_user.html' %}
 
-        <link href="{% static 'posts/static/css/bootstrap.min.css' %}" rel="stylesheet">
-        <link href="{% static 'users/static/login.css' %}" rel="stylesheet">
-
-        <title>로그인</title>
-    </head>
-    <body>
-        {% include 'nav.html' %}
+{% block content %}
+  <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px"></div>
         <div>
             <form method="POST" class="login-form">
                 {% csrf_token %}
@@ -34,7 +24,9 @@
                     <input type="password" class='lf--input' name="password" placeholder="비밀번호 (4자리 이상)" minlength="4" required="" id="id_password">
                 </div>
                 <input class='lf--submit' type='submit' value='LOGIN'>
+                <hr>
+                <div class='lf--submit' style="text-align:center;"><a href="/user/signup/">회원가입</a></div>
             </form>
         </div>        
-    </body>
+        {% endblock %}
 </html>

@@ -55,7 +55,7 @@ def post_add(request):
         form = PostForm()
 
     context = {"form": form}
-    return render(request,"pass", context) # 요청 전달할 템플릿,post_add.html
+    return render(request,"make_post.html", context) # 요청 전달할 템플릿,post_add.html
 
 # 완료한 여행 계획 목록 (완료된 것만 공개) # 일단 만들엇는데 어디에 넣어야할지 모름
 def post_list(request):
@@ -76,7 +76,7 @@ def post_detail(request, post_id):
         "post": post,
         "comment_form": comment_form,
     }
-    return render(request, "pass", context)# 요청 전달할 템플릿,post_detail.html
+    return render(request, "post_detail.html", context)# 요청 전달할 템플릿,post_detail.html
 
 # 여행 계획 수정
 def post_edit(request, post_id):

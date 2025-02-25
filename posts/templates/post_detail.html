@@ -1,0 +1,24 @@
+{% extends 'base_post.html' %}
+
+{% block content %}
+        <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+
+            <p>{{ post.content|linebreaksbr }}</p>
+            {% if post.thumbnail %}
+            <!--img src="{{ post.photo }}"-->
+            {% endif %}
+            <ul class="comments">
+                {% for comment in post.comment_set.all %}
+                    <li class="comments">{{ comment.content }}</li>
+                {% empty %}<!--post.comment_set.all 에 순회할 항목이 없는 경우-->
+                    <li class="comment-empty">아직 댓글이 없습니다</li>
+                {% endfor %}
+            </ul>
+            <form method="POST">
+                {% csrf_token %} 
+                <textarea name="comment"></textarea>
+                <button type="submit" class ="btn btn-primary">작성</button>
+            </form>
+        </div>
+{% endblock %}
+</html>

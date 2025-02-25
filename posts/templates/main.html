@@ -1,228 +1,123 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Seoul Planner</title>
-	<link rel="stylesheet" href="{% static 'posts/static/css/bootstrap.min.css' %}"> <!-- https://fontawesome.com/ -->
-	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
-    <link href="{% static 'posts/static/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'posts/static/css/templatemo-xtra-blog.css' %}" rel="stylesheet">
-<!--
-    
-TemplateMo 553 Xtra Blog
+{% extends 'base_nav.html' %}
 
-https://templatemo.com/tm-553-xtra-blog
 
--->
-</head>
-<body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <!-- 상단 nav bar 추후 분리 예정-->
-        <div class="container px-lg-5">
-            <a class="navbar-brand" href="">서울 명소 탐방</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="places/">서울 명소</a></li>
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="/user/logout/">로그아웃</a></li>
-                        <li class="nav-item">
-                            <a class="nav-link active"  aria-current="page" href="/user/login/">
-                                Log-in
-                            </a>
-                        </li>
-                    </ul>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="container-fluid">
-        <main class="tm-main">
-            <!-- Search form -->
-            <div class="row tm-row">
-                <div class="col-12">
-                    <form method="GET" class="form-inline tm-mb-80 tm-search-form">                
-                        <input class="form-control tm-search-input" name="query" type="text" placeholder="Search..." aria-label="Search">
-                        <button class="tm-search-button" type="submit">
-                            <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
-                        </button>                                
-                    </form>
-                </div>                
-            </div>            
-            <div class="row tm-row">
-                <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-60">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-01.jpg" alt="Image" class="img-fluid">                            
-                        </div>
-                        <span class="position-absolute tm-new-badge">New</span>
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">Simple and useful HTML layout</h2>
-                    </a>                    
-                    <p class="tm-pt-30">
-                        There is a clickable image with beautiful hover effect and active title link for each post item. 
-                        Left side is a sticky menu bar. Right side is a blog content that will scroll up and down.
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Travel . Events</span>
-                        <span class="tm-color-primary">June 24, 2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>36 comments</span>
-                        <span>by Admin Nat</span>
-                    </div>
-                </article>
-                <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-60">
-                        <div class=" tm-post-link-inner">
-                            <img src="img/img-02.jpg" alt="Image" class="img-fluid">                            
-                        </div>
-                        <span class="position-absolute tm-new-badge">New</span>
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">Multi-purpose blog template</h2>
-                    </a>                    
-                    <p class="tm-pt-30">
-                        <a rel="nofollow" href="https://templatemo.com/tm-553-xtra-blog" target="_blank">Xtra Blog</a>  is a multi-purpose HTML CSS template from TemplateMo website. 
-                        Blog list, single post, about, contact pages are included. Left sidebar fixed width and content area is a fluid full-width.
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Creative . Design . Business</span>
-                        <span class="tm-color-primary">June 16, 2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>48 comments</span>
-                        <span>by Admin Sam</span>
-                    </div>
-                </article>
-                <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-20">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-03.jpg" alt="Image" class="img-fluid">
-                        </div>
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">How can you apply Xtra Blog</h2>
-                    </a>                    
-                    <p class="tm-pt-30">
-                        You are <u>allowed</u> to convert this template as any kind of CMS theme or template for your custom website builder. 
-                        You can also use this for your clients. Thank you for choosing us.
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Music . Audio</span>
-                        <span class="tm-color-primary">June 11, 2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>24 comments</span>
-                        <span>by John Walker</span>
-                    </div>
-                </article>
-                <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-20">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-04.jpg" alt="Image" class="img-fluid">
-                        </div>
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">A little restriction to apply</h2>
-                    </a>                    
-                    <p class="tm-pt-30">
-                        You are <u>not allowed</u> to re-distribute this template as a downloadable ZIP file on any template collection
-                        website. This is strongly prohibited as we worked hard for this template. Please contact TemplateMo for more information.
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Artworks . Design</span>
-                        <span class="tm-color-primary">June 4, 2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>72 comments</span>
-                        <span>by Admin Sam</span>
-                    </div>
-                </article>
-                <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-20">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-05.jpg" alt="Image" class="img-fluid">
-                        </div>
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">Color hexa values of Xtra Blog</h2>
-                    </a>                    
-                    <p class="tm-pt-30">
-                        If you wish to kindly support us, please contact us or contribute a small PayPal amount to info [at] templatemo.com that is helpful for us.
-                        <br>
-                        Title #099 New #0CC <br>
-                        <span class="tm-color-primary">Text #999 Line #CCC Next #0CC Prev #F0F0F0</span>
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Creative . Video . Audio</span>
-                        <span class="tm-color-primary">May 31, 2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>84 comments</span>
-                        <span>by Admin Sam</span>
-                    </div>
-                </article>
-                <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-20">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-06.jpg" alt="Image" class="img-fluid">
-                        </div>
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">Donec convallis varius risus</h2>
-                    </a>                    
-                    <p class="tm-pt-30">
-                        Quisque id ipsum vel sem maximus vulputate sed quis velit. Nunc vel turpis eget orci elementum cursus vitae in eros. Quisque vulputate nulla ut dolor consectetur luctus.
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Visual . Artworks</span>
-                        <span class="tm-color-primary">June 16, 2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>96 comments</span>
-                        <span>by Admin Sam</span>
-                    </div>
-                </article>
-            </div>
-            <div class="row tm-row tm-mt-100 tm-mb-75">
-                <div class="tm-prev-next-wrapper">
-                    <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled tm-mr-20">Prev</a>
-                    <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
-                </div>
-                <div class="tm-paging-wrapper">
-                    <span class="d-inline-block mr-3">Page</span>
-                    <nav class="tm-paging-nav d-inline-block">
-                        <ul>
-                            <li class="tm-paging-item active">
-                                <a href="#" class="mb-2 tm-btn tm-paging-link">1</a>
-                            </li>
-                            <li class="tm-paging-item">
-                                <a href="#" class="mb-2 tm-btn tm-paging-link">2</a>
-                            </li>
-                            <li class="tm-paging-item">
-                                <a href="#" class="mb-2 tm-btn tm-paging-link">3</a>
-                            </li>
-                            <li class="tm-paging-item">
-                                <a href="#" class="mb-2 tm-btn tm-paging-link">4</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>                
-            </div>            
-            <footer class="row tm-row">
-                <hr class="col-12">
-                <div class="col-md-6 col-12 tm-color-gray">
-                    Design: <a rel="nofollow" target="_parent" href="https://templatemo.com" class="tm-external-link">TemplateMo</a>
-                </div>
-                <div class="col-md-6 col-12 tm-color-gray tm-copyright">
-                    Copyright 2020 Xtra Blog Company Co. Ltd.
-                </div>
-            </footer>
-        </main>
+{% block content %}
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+
+  <!-- First Photo Grid-->
+  <div class="w3-row-padding w3-padding-16 w3-center" id="food">
+    <div class="w3-quarter">
+      <img src="/w3images/sandwich.jpg" alt="Sandwich" style="width:100%">
+      <h3>The Perfect Sandwich, A Real NYC Classic</h3>
+      <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
     </div>
-    <script src="{% static 'posts/static/js/jquery.min.js' %}"></script>
-    <script src="{% static 'posts/static/js/templatemo-script.js' %}"></script>
-</body>
+    <div class="w3-quarter">
+      <img src="/w3images/steak.jpg" alt="Steak" style="width:100%">
+      <h3>Let Me Tell You About This Steak</h3>
+      <p>Once again, some random text to lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    </div>
+    <div class="w3-quarter">
+      <img src="/w3images/cherries.jpg" alt="Cherries" style="width:100%">
+      <h3>Cherries, interrupted</h3>
+      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+      <p>What else?</p>
+    </div>
+    <div class="w3-quarter">
+      <img src="/w3images/wine.jpg" alt="Pasta and Wine" style="width:100%">
+      <h3>Once Again, Robust Wine and Vegetable Pasta</h3>
+      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    </div>
+  </div>
+  
+  <!-- Second Photo Grid-->
+  <div class="w3-row-padding w3-padding-16 w3-center">
+    <div class="w3-quarter">
+      <img src="/w3images/popsicle.jpg" alt="Popsicle" style="width:100%">
+      <h3>All I Need Is a Popsicle</h3>
+      <p>Lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    </div>
+    <div class="w3-quarter">
+      <img src="/w3images/salmon.jpg" alt="Salmon" style="width:100%">
+      <h3>Salmon For Your Skin</h3>
+      <p>Once again, some random text to lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    </div>
+    <div class="w3-quarter">
+      <img src="/w3images/sandwich.jpg" alt="Sandwich" style="width:100%">
+      <h3>The Perfect Sandwich, A Real Classic</h3>
+      <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    </div>
+    <div class="w3-quarter">
+      <img src="/w3images/croissant.jpg" alt="Croissant" style="width:100%">
+      <h3>Le French</h3>
+      <p>Lorem lorem lorem lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="w3-center w3-padding-32">
+    <div class="w3-bar">
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
+      <a href="#" class="w3-bar-item w3-black w3-button">1</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">2</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">3</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">4</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
+    </div>
+  </div>
+  
+  <hr id="about">
+
+  <!-- About Section -->
+  <div class="w3-container w3-padding-32 w3-center">  
+    <h3>About Me, The Food Man</h3><br>
+    <img src="/w3images/chef.jpg" alt="Me" class="w3-image" style="display:block;margin:auto" width="800" height="533">
+    <div class="w3-padding-32">
+      <h4><b>I am Who I Am!</b></h4>
+      <h6><i>With Passion For Real, Good Food</i></h6>
+      <p>Just me, myself and I, exploring the universe of unknownment. I have a heart of love and an interest of lorem ipsum and mauris neque quam blog. I want to share my world with you. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+    </div>
+  </div>
+  <hr>
+  
+  <!-- Footer -->
+  <footer class="w3-row-padding w3-padding-32">
+    <div class="w3-third">
+      <h3>FOOTER</h3>
+      <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    </div>
+  
+    <div class="w3-third">
+      <h3>BLOG POSTS</h3>
+      <ul class="w3-ul w3-hoverable">
+        <li class="w3-padding-16">
+          <img src="/w3images/workshop.jpg" class="w3-left w3-margin-right" style="width:50px">
+          <span class="w3-large">Lorem</span><br>
+          <span>Sed mattis nunc</span>
+        </li>
+        <li class="w3-padding-16">
+          <img src="/w3images/gondol.jpg" class="w3-left w3-margin-right" style="width:50px">
+          <span class="w3-large">Ipsum</span><br>
+          <span>Praes tinci sed</span>
+        </li> 
+      </ul>
+    </div>
+
+    <div class="w3-third w3-serif">
+      <h3>POPULAR TAGS</h3>
+      <p>
+        <span class="w3-tag w3-black w3-margin-bottom">Travel</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">New York</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Dinner</span>
+        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Salmon</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">France</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Drinks</span>
+        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Ideas</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Flavors</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Cuisine</span>
+        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Chicken</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Dressing</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Fried</span>
+        <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Fish</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Duck</span>
+      </p>
+    </div>
+  </footer>
+
+<!-- End page content -->
+</div>
+{% endblock %}
+
 </html>
