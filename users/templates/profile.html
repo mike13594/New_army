@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Page</title>
-</head>
-<body>
-    Profile
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ profile.username }} Profile</title>
+    </head>
+    <body>
+        <h1>{{ profile.username }} 의 Profile Info</h1>
+        <hr>
+        <section>
+            <p>{{ profile.email }}</p>
+            {% if profile.profile_image %}
+            <img src="{{ profile.profile_image.url }}" width="100" height="100" style="float:right;">
+            {% else %}
+            <img src="" alt="">
+            {% endif %}
+            <p>{{ profile.short_description }}</p>    
+            <p>{{ profile.date_joined }}</p>                  
+        </section>
+        <a href="{% url 'user:edit' user_id=profile.id %}">프로필 수정</a>
+        <a href="{% url 'user:delete' user_id=profile.id %}">프로필 삭제</a>
+    </body>
 </html>
