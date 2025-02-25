@@ -1,20 +1,14 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <title>장소 목록</title>
-</head>
-<body>
-    <h1>장소 목록</h1>
-    <ul>
-        {% for place in place %}
-            <li>
-                <a href="{% url 'place_detail' place.id %}">
-                    <img src="{{ place.place_image.url }}" alt="{{ place.name }}" height="100">
-                     - {{ place.district }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'main' %}">홈으로 돌아가기</a>
-</body>
-</html>
+<h1>장소 목록</h1>
+<ul>
+    {% for place in places %}
+        <li>
+            <a href="{% url 'place_detail' place.id %}">
+                {% if place.place_image %}
+                    <img src="{{ place.place_image.url }}" alt="{{ '이미지 정보 없음' }}" height="200">
+                {% endif %}
+                {{ place.name }} - {{ place.district }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'main' %}">홈으로 돌아가기</a>

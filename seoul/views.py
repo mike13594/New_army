@@ -4,13 +4,13 @@ from seoul.models import Place
 def place_list(request):
     places = Place.objects.all()
     context = {
-        "place": places,
+        "places": places,
     }
     return render(request, "places.html", context)
 
 def place_detail(request, place_id):
-    place = get_object_or_404(Place, id=place_id)
+    places = get_object_or_404(Place, id=place_id)
     context = {
-        "place": place,
+        "places": places,
     }
     return render(request, "place_detail.html", context)

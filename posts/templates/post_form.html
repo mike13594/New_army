@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<body>
+    <h1>{% if post %}글 수정{% else %}새 글 작성{% endif %}</h1>
+
+    <div id="post-add">
+        <h1>Post 작성</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <label for="id_images">이미지</label>
+                <input id="id_images" name="images" type="file" multiple>
+            </div>
+            {{ form.as_p }}
+            <button type="submit">게시</button>
+        </form>
+    </div>
+
+    <a href="{% url 'main' %}">홈으로</a>
+</body>
+</html>
