@@ -4,7 +4,6 @@ from users.models import User
 
 class LoginForm(forms.Form):
     username = forms.CharField(
-        max_length = 20,    # 길이제한 
         min_length = 2,
         widget = forms.TextInput(
             attrs = {"placeholder":"사용자명 (2자리 이상)"},
@@ -20,10 +19,11 @@ class LoginForm(forms.Form):
 
 class SignupForm(forms.Form):
     username = forms.CharField()
+    email = forms.EmailField(required=False)
     password1 = forms.CharField(widget = forms.PasswordInput)
     password2 = forms.CharField(widget = forms.PasswordInput)
-    profile_image = forms.ImageField()
-    short_description = forms.CharField()
+    profile_image = forms.ImageField(required=False)
+    short_description = forms.CharField(required=False)
 
     # username 유효성 검사
     def clean_username(self):
@@ -45,6 +45,7 @@ class SignupForm(forms.Form):
         
     def save(self):
         username = self.cleaned_data["username"]
+        email = self.cleaned_data["email"]
         password1 = self.cleaned_data["password1"]
         profile_image = self.cleaned_data["profile_image"]
         short_description = self.cleaned_data["short_description"]
@@ -52,8 +53,20 @@ class SignupForm(forms.Form):
         user = User.objects.create_user(
             username = username,
             password = password1,
+            email = email,
             profile_image = profile_image,
             short_description = short_description,
         )
 
         return user
+    
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "email",
+            "profile_image",
+            "short_description",
+            "date_joined",            
+        )    
