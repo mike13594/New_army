@@ -69,4 +69,4 @@ class ProfileForm(forms.ModelForm):
             "profile_image",
             "short_description",
             "date_joined",            
-        )    
+        )       

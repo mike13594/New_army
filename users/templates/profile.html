@@ -3,34 +3,48 @@
 {% block content %}
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px"></div>
 <div id="profile">
-  <div class="info">
-      <!-- 프로필 이미지 영역-->
-       {% if user.profile_image %}
-       <img src="{{ user.profile_image.url }}">
-       {% endif %}
-
-       <!-- 사용자 정보 영역-->
-      <div class="info-texts">
-          <h1>{{ user.username }}</h1>
-          <div class="counts">
-              <dl>
-                  <dt>Posts</dt>
-                  <dd>
-                      <a href="{% url 'users:profile' user_id=user.id %}"> {{ user.post_set.count }} </a>
-                  </dd>
-                  <dt>Followers</dt>
-                  <dd>
-                      <a href="{% url 'users:followers' user_id=user.id %}"> {{ user.followers.count }}</a>
-                  </dd>
-                  <dt>Following</dt>
-                  <dd>
-                      <a href="{% url 'users:following' user_id=user.id %}"> {{ user.following.count }}</a>
-                  </dd>
-              </dl>
-          </div>
-          <p>{{ user.short_description }}</p>
-      </div>
-  </div>
+    <!-- 프로필 이미지 영역-->
+    <div style="margin:5px;padding:5px;">
+        {% if user.profile_image %}
+        <span><img src="{{ user.profile_image.url }}" width="100" height="100"><h1 style="float:left;margin:5px;padding:5px;">{{ user.username }} 의 프로필 정보</h1></span>
+        {% else %}
+        <span><img src="" alt=""><h1> style="float:left;margin:5px;padding:5px;"{{ user.username }} 의 프로필 정보</h1></span>
+        {% endif %}
+    </div>
+    <hr>
+    <div class="info">
+        <!-- 사용자 정보 영역-->
+        <div class="info-texts">
+            <div style="margin:20px;padding:10px;">
+                <span>이메일 주소 : {{ user.email }} </span>
+            </div>
+            <div style="margin:20px;padding:10px;">
+                <span>간단소개 : {{ user.short_description }} </span>
+            </div>
+            <div style="margin:20px;padding:10px;">
+                <span>가입일 : {{ user.date_joined}} </span>
+            </div>                          
+        </div>
+        <a href="{% url 'user:edit' user_id=user.id %}" style="padding:10px;">프로필 수정</a>
+        <a href="{% url 'user:delete' user_id=user.id %}" style="padding:10px;">프로필 삭제</a>
+    </div>
+	<div class="counts">
+        <dl>
+            <dt>사용자 게시글</dt>
+            <dd>
+                <a href="{% url 'user:profile' %}">{{ user.post_set.count }}</a>
+            </dd>
+            <dt>답사 진행상황 ( 답사 체크한 건수 / 명소 전체 건수)</dt>
+            <dd>
+                <span>
+                   {{ complete_cnt }} / {{ place_cnt }} 
+                </span>
+                <span style="margin:5px;">
+                    {{ progress_per }} %<progress max="10" value="progress_per" title="퍼센트" style="padding:5px;"></progress>
+                </span>
+            </dd>                                   
+        </dl>
+    </div>
   {% block bottom_data %}{% endblock %}
 </div>
 {% endblock %}

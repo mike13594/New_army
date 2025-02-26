@@ -6,4 +6,4 @@ class User(AbstractUser):
     short_description = models.TextField(blank = True)
     
     def __str__(self):
-        return f"{self.username}\t{self.date_joined}\t{self.profile_image}\t{self.short_description}\t{self.id}\t{self.email}"
+        return f"{self.username}"
