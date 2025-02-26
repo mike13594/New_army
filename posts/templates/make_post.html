@@ -1,7 +1,9 @@
 {% extends 'base_dropdown.html' %}
 
 {% block content %}
-  <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+
+
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div>
@@ -20,19 +22,20 @@
               </select>
           </div>
         <div>
-          <label for="second">동</label>
+          <label for="second">장소</label>
             <select id="second" name="second">
-              <option value="" selected="selected">동</option>
+              <option value="" selected="selected">장소</option>
             </select>
         </div>
           <button type="button" value="추가" id="add">추가</button>      
         </div>
         <div>
           <br><div id="container"></div> <br>
-            <label>썸네일</label>
-            <input name="thumbnail" type="file">
+            <label>이미지</label>
+            <input name="thumbnail" type="file" multiple>
         </div>
         <button type="submit" class ="btn btn-primary">작성</button>
+        <input type="text" id="place" name="place" value="">
     </form>
 </div>
 
@@ -42,8 +45,9 @@
     // var value = document.getElementById("second").selectedOptions[0].value;
       const value = document.querySelector("select[name='second'] option:checked").text;
     //alert("value : ", value);
-        sel_value = sel_value + value + ', ';
+        sel_value = sel_value + value + ',';
       document.getElementById("container").innerHTML = '선택하신 동은 ' + sel_value;
+      document.getElementById("place").value = sel_value;
   }
 
 

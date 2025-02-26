@@ -1,5 +1,6 @@
 from django import forms
 from posts.models import Comment, Post
+from seoul.models import Place
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -17,6 +18,11 @@ class CommentForm(forms.ModelForm):
         }
 
 class PostForm(forms.ModelForm):
+    place = forms.ModelMultipleChoiceField(
+        queryset= Place.objects.all(),
+        widget = forms.CheckboxSelectMultiple,
+        required=True
+    )
     class Meta:
         model = Post
         fields = [

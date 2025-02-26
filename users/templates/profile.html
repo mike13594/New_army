@@ -16,15 +16,15 @@
               <dl>
                   <dt>Posts</dt>
                   <dd>
-                      <a href="{% url 'users:profile' user_id=user.id %}"> {{ user.post_set.count }} </a>
+                      <a href="{% url 'user:profile' user_id=user.id %}"> {{ user.post_set.count }} </a>
                   </dd>
                   <dt>Followers</dt>
                   <dd>
-                      <a href="{% url 'users:followers' user_id=user.id %}"> {{ user.followers.count }}</a>
+                      <a href="{% url 'user:followers' user_id=user.id %}"> {{ user.followers.count }}</a>
                   </dd>
                   <dt>Following</dt>
                   <dd>
-                      <a href="{% url 'users:following' user_id=user.id %}"> {{ user.following.count }}</a>
+                      <a href="{% url 'user:following' user_id=user.id %}"> {{ user.following.count }}</a>
                   </dd>
               </dl>
           </div>
