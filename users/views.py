@@ -115,17 +115,17 @@ def profile(request):
 def profile_edit(request, user_id):
     # 프로필 정보 화면에서 사용자 id를 가지고서 사용자 정보를 조회한다.
     profile = get_object_or_404(User, pk = user_id)
-    print("profile_info : ", profile)
     # 프로필 정보 중 수정된 항목 데이터를 가지고서 작성완료버튼을 누른다.
     if request.method == "POST":
-        form = ProfileForm(data=request.POST, files = request.FILES, instance = profile)
+        form = ProfileForm(data=request.POST, files=request.FILES, instance = profile)
 
         # 수정된 데이터 항목이 유효한지 검증한다.
         if form.is_valid():
             profile = form.save(commit=False)
-            profile.username = request.user.username
             profile.save()
             return redirect("/user/profile/")
+        else:
+            print("form_error :", form.errors)
         
     # GET 방식으로, 넘겨진 프로필 정보를 화면에 보여준다.
     else:

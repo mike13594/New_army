@@ -67,6 +67,5 @@ class ProfileForm(forms.ModelForm):
             "email",
             "profile_image",
             "short_description",
-            "date_joined",
             "id",            
         )       
