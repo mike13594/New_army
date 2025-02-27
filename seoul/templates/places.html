@@ -11,7 +11,7 @@
   {% for place in page_obj %}
  
     <div class="w3-quarter">
-      <img src="{{ place.place_image }}" alt="Seouk Planner" width="250", height="170">
+      <img src="{{ place.place_image }}" alt="Seoul Planner" width="250", height="170">
       <h4><a href="{{ place.id }}/" >{{ place.name|truncatechars:12 }}</a> </h4> 
       <p>{{ place.address|truncatechars:20 }}</p>
     </div>

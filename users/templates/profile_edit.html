@@ -8,20 +8,16 @@
         {% if profile.profile_image %}
         <span><img src="{{ profile.profile_image.url }}" width="100" height="100"><h1 style="float:left;margin:5px;padding:5px;">{{ profile.username }} 의 프로필 정보</h1></span>
         {% else %}
-        <span><img src="" alt=""><h1> style="float:left;margin:5px;padding:5px;"{{ profile.username }} 의 프로필 정보</h1></span>
+        <span><img src="" alt="" style="float:left;margin:5px;padding:5px;"><h1> {{ profile.username }} 의 프로필 정보</h1></span>
         {% endif %}
     </div>
     <hr>
     <form method="POST" class="login-form" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="flex-row">
-            <label class="lf--label" for="email"></label>
-            <input type="text" class="lf--input" name="email" placeholder='xxx@xxxx.xxx' required="" id="id_email" value="{{ profile.email }}">
-        </div>
-        <div class="flex-row">
             <span>
                 <label class="lf--label" for="profile_image"></label>현재 : {{ profile.profile_image }}<br>
-                <input type="file" class='lf--input' name="profile_image" placeholder="프로필 사진" accept="image/*" required="" id="id_profile_image">
+                <input type="file" class='lf--input' name="profile_image" placeholder="프로필 사진" accept="image/*" required="" id="id_profile_image" style="margin:10px;padding:10px;">
             </span>           
         </div>          
         <div class="flex-row">

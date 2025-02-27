@@ -16,23 +16,21 @@
         <!-- 사용자 정보 영역-->
         <div class="info-texts">
             <div style="margin:20px;padding:10px;">
-                <span>이메일 주소 : {{ user.email }} </span>
-            </div>
-            <div style="margin:20px;padding:10px;">
                 <span>간단소개 : {{ user.short_description }} </span>
             </div>
             <div style="margin:20px;padding:10px;">
                 <span>가입일 : {{ user.date_joined}} </span>
             </div>                          
         </div>
-        <a href="{% url 'user:edit' user_id=user.id %}" style="padding:10px;">프로필 수정</a>
-        <a href="{% url 'user:delete' user_id=user.id %}" style="padding:10px;">프로필 삭제</a>
+        <a href="{% url 'user:edit' user_id=user.id %}" style="padding:10px;" class="w3-bar-item w3-black w3-button">프로필 수정</a>
+        <a href="{% url 'user:delete' user_id=user.id %}" style="padding:10px;" class="w3-bar-item w3-black w3-button">프로필 삭제</a>
+        <a href="{% url 'post:post_create' %}" style="padding:10px;" class="w3-bar-item w3-black w3-button">글 작성</a>
     </div>
 	<div class="counts">
         <dl>
             <dt>사용자 게시글</dt>
             <dd>
-                <a href="{% url 'user:profile' %}">{{ user.post_set.count }}</a>
+                {{ user.post_set.count }}
             </dd>
             <dt>답사 진행상황 ( 답사 체크한 건수 / 명소 전체 건수)</dt>
             <dd>

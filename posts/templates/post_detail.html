@@ -31,16 +31,17 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ place.name }}</h5>
                             <p class="card-text">{{ place.address }}</p>
-                            {% if place.id in completed_places_list %}
-                                {% if user.is_authenticated %}
-                                <a href="{% url 'post:place_uncomplete' post.id place.id %}" class="btn btn-warning btn-sm">✔</a>
-                                {% endif %}
+                            <p>{{ user }}</p>
+                            <p>{{  post.user }}</p>
+                            {% if user.id == post.user_id %}
+                            
+                                {% if place.id in completed_places_list %}
+                                    <a href="{% url 'post:place_uncomplete' post.id place.id %}" class="btn btn-warning btn-sm">✔</a>
                                 {% else %}
-                                {% if user.is_authenticated %}
                                     <a href="{% url 'post:place_complete' post.id place.id %}" class="btn btn-success btn-sm">완료하기</a>
-                                {% else %}
-                                    <p><a href="{% url 'user:login' %}">로그인</a> 후 완료할 수 있습니다.</p>
                                 {% endif %}
+                            {% else %}
+                                    <p>작성자만 수정할 수 있습니다.</p>
                             {% endif %}
                         </div>
                     </div>
@@ -55,6 +56,8 @@
             <li>
                 <strong>{{ comment.user.id }}</strong> ({{ comment.created}})
                 <p>{{ comment.content }}</p>
+                <p>user : {{user}}</p>
+                <p>comment.user : {{ comment.user }}</p>
                 {% if user == comment.user %}
                 <form method="POST" action="{% url 'post:comment_delete' comment.id %}">
                     {% csrf_token %}

@@ -11,29 +11,26 @@
         {% endif %}
         <div>
             <label>제목</label>
-            <input type="text" name="title" value="{% if is_edit %}{{ post.title }}{% endif %}">
+            <input type="text" name="title" value="{% if is_edit %}{{ post.title }}{% endif %}" style="margin: 10px; padding: 10px;">
         </div>
         <div>
             <label>내용</label>
-            <textarea name="content" cols="50" rows="10">{% if is_edit %}{{ post.content }}{% endif %}</textarea>
+            <textarea name="content" cols="50" rows="10" style="margin: 5px; padding: 5px;">{% if is_edit %}{{ post.content }}{% endif %}</textarea>
         </div>
+        <span style="margin: 10px; padding: 10px;float:left;">
+              <label for="first">구</label>
+                  <select id="first" name="first" required>
+                    <option value="" selected="selected">구</option>
+                  </select>
+              <label for="second">장소</label>
+                <select id="second" name="second" required>
+                  <option value="" selected="selected">장소</option>
+                </select>
+              <button type="button" value="추가" id="add">추가</button>     
+          </span>
         <div>
-          <div>
-            <label for="first">구</label>
-              <select id="first" name="first">
-                <option value="" selected="selected">구</option>
-              </select>
-          </div>
-        <div>
-          <label for="second">장소</label>
-            <select id="second" name="second">
-              <option value="" selected="selected">장소</option>
-            </select>
-        </div>
-          <button type="button" value="추가" id="add">추가</button>      
-        </div>
-        <div>
-          <br><div id="container"> 
+          <br>
+        <div id="container"> 
             {% if is_edit %}
                 기존 장소는 {{ existing_places }}
             {% endif %}</div> <br>
@@ -41,7 +38,7 @@
             <input name="photo" type="file" multiple>
         </div>
         {% if is_edit and post.postimage_set.all %}
-        <div>
+        <div >
             <label>기존 이미지:</label>
             <div>
                 {% for image in post.postimage_set.all %}

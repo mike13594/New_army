@@ -1,17 +1,30 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.urls import reverse
 from posts.models import Comment, Post, PostImage, PlaceComplete
+from users.models import User
 from posts.forms import CommentForm, PostForm
 from django.views.decorators.http import require_POST
 from django.http import HttpResponseForbidden, JsonResponse
 from seoul.models import Place
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-
+from django.core.paginator import Paginator
 
 def main(request):
     posts = Post.objects.all()
-    context = {"posts": posts}
+    page = request.GET.get('page', 1)
+    images = PostImage.objects.all()
+    
+    paginator = Paginator(posts,8)
+
+    page_obj = paginator.get_page(page)
+
+    context = {
+        "posts": posts,
+        "page_obj":page_obj,
+        "paginator":paginator,
+        "images": images,
+    }
     return render(request, "main.html", context)
 
 # 댓글 작성
@@ -25,7 +38,7 @@ def comment_add(request, post_id):
         comment.post = post
         comment.save()
 
-        return redirect("post:post_detail", post_id=comment.post.id) #url 추가 , 댓글 생성한 후 리다이렉트할 페이지 post_detail?
+        return redirect("post:post_detail", post_id=comment.post.id) 
 
 # 댓글 삭제    
 @require_POST
@@ -35,24 +48,25 @@ def comment_delete(request, comment_id):
     if comment.user.id == request.user.id:
         post_id=comment.post.id
         comment.delete()
-        return redirect("post:post_detail", post_id=post_id) #url 추가, 댓글 삭제한 후 리다이렉트할 페이지 post_detail?
+        return redirect("post:post_detail", post_id=post_id) 
     
     else:
         return HttpResponseForbidden("이 댓글을 삭제할 권한이 없습니다")
     
 # 여행 계획 상세보기
-
+@login_required
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
+    user = User.objects.get(id=post.user_id)
     comments = Comment.objects.filter(post=post)
     comment_form = CommentForm()
-
     completed_places_list = (
         PlaceComplete.objects.filter(post=post, user=request.user, complete=True)
         .values_list("place_id", flat=True)
     )  
 
     context = {
+        "user" : user,
         "post": post,
         "places": post.place.all(),  
         "comments": comments,
@@ -76,11 +90,12 @@ def post_create(request):
                 PostImage.objects.create(post=post, photo=image_file)
 
             # 장소 저장
-            place = request.POST.get("place")
+            place = request.POST.get("place", "").strip()
             if place:
                 place_name_list = [place_name.strip() for place_name in place.split(",")]
+                place_name_list = [name for name in place_name_list if name]
                 for place_name in place_name_list:
-                    place, _ = Place.objects.get_or_create(name=place_name)  # Post -> Place 수정
+                    place, _ = Place.objects.get_or_create(name=place_name) 
                     post.place.add(place)  
 
             return redirect("post:post_detail")  
@@ -151,7 +166,6 @@ def post_delete(request, post_id):
 # 완료
 @login_required
 def place_complete(request, post_id, place_id):
-    print("함수 진입")
     post = get_object_or_404(Post, id=post_id)
     place = get_object_or_404(Place, id=place_id)
 
@@ -161,7 +175,6 @@ def place_complete(request, post_id, place_id):
         post=post,
         place=place
     )
-    print(place_complete)
 
     if not place_complete.complete:  
         place_complete.complete = True

@@ -64,7 +64,6 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = (
-            "email",
             "profile_image",
             "short_description",
             "id",            
