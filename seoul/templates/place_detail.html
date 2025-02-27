@@ -12,8 +12,8 @@
         <p>주소: {{ place.address }}</p>
         <p>설명: {{ place.description }}</p>
         
-        <a href="{% url 'place_list' %}">장소 목록으로 돌아가기</a>
-        <a href="{% url 'main' %}">홈으로 돌아가기</a>
+        <a href="{% url 'seoul:place_list' %}">장소 목록으로 돌아가기</a>
+        <a href="{% url 'post:main' %}">홈으로 돌아가기</a>
         </div>
 
     </div>

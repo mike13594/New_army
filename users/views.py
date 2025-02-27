@@ -89,7 +89,8 @@ def profile(request):
     # 조회하여 정보가 있으면 프로필 정보 화면으로 데이터를 넘겨준다.
 
     # 명소 답사하여 complete를 체크한 건수
-    complete_cnt = PlaceComplete.objects.filter(complete=True)
+    complete_cnt = PlaceComplete.objects.filter(complete=True).count()
+    print("complete_cnt : ",complete_cnt)
     if complete_cnt:
         complete_cnt 
     else:
@@ -104,10 +105,10 @@ def profile(request):
         place_cnt = 0
 
     # 진척률
-    progress_per = len(complete_cnt) * 100 / len(place_cnt)
+    progress_per = complete_cnt * 100 / len(place_cnt)
     print("progress_per : ", round(progress_per))        
 
-    context = {"user": user, "complete_cnt" : len(complete_cnt), "place_cnt" : len(place_cnt), "progress_per" : round(progress_per)}
+    context = {"user": user, "complete_cnt" : complete_cnt, "place_cnt" : len(place_cnt), "progress_per" : round(progress_per)}
     # return HttpResponse("ok")
     return render(request, "profile.html", context) 
 
