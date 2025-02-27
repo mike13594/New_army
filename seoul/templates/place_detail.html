@@ -1,16 +1,21 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <title>{{ place.name }}</title>
-</head>
-<body>
-    <h1>{{ places.name }}</h1>
-        <img src="{{ places.place_image.url }}" alt="{{ places.name }}"  height="200">
-    <p>지역: {{ places.district }}</p>
-    <p>주소: {{ places.address }}</p>
-    <p>설명: {{ places.description }}</p>
-    
-    <a href="{% url 'place_list' %}">장소 목록으로 돌아가기</a>
-    <a href="{% url 'main' %}">홈으로 돌아가기</a>
-</body>
+{% extends 'base_nav.html' %}
+
+
+{% block content %}  
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+           
+        
+        <!-- Detail place -->
+        <h1>{{ place.name }}</h1>
+            <img src="{{ place.place_image }}" alt="{{ place.name }}"  height="200">
+        <p>지역: {{ place.district }}</p>
+        <p>주소: {{ place.address }}</p>
+        <p>설명: {{ place.description }}</p>
+        
+        <a href="{% url 'place_list' %}">장소 목록으로 돌아가기</a>
+        <a href="{% url 'main' %}">홈으로 돌아가기</a>
+        </div>
+
+    </div>
+    {% endblock %} 
 </html>
