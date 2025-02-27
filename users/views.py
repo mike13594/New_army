@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from users.forms import LoginForm, SignupForm, ProfileForm
 from django.contrib.auth import authenticate, login, logout
 from users.models import User
+from posts.models import Post, PlaceComplete
+from seoul.models import Place
 # from django.http import HttpResponse
 
 # Create your views here.
 # 로그인 처리
 def login_view(request):
-
+    # print('request.user : ', request.user)
     # 로그인 user 유효성 검증하는 부분
     if request.user.is_authenticated:
         return redirect("/user/profile/")
@@ -32,10 +34,11 @@ def login_view(request):
             
             # 사용자가 없다면 form에서 에러 추가
             else:
-                form.add_error(None, "입력한 자격증명에 해당하는 사용자가 없습니다.")
+                auth_after_error = "입력한 자격증명에 해당하는 사용자가 없습니다."
+                # form.add_error(None, "입력한 자격증명에 해당하는 사용자가 없습니다.")
 
         # 어떤 경우든지 실패한 경우 다시 LoginForm을 사용한 로그인 페이지 렌더링
-        context = {"form" : form}
+        context = {"form" : form, "message" : auth_after_error}
         return render(request, "login.html", context)    
 
     else:
@@ -80,10 +83,31 @@ def signup(request):
 def profile(request):
     # 로그인 user 유효성 검증이후 로그인한 사람의 username으로 
     # 사용자 프로필 정보를 조회한다.
-    profile = get_object_or_404(User, username = request.user.username)
-
+    # print("request.user.username : ", request.user.username)
+    user = get_object_or_404(User, username = request.user.username)
+    # print("user : ", user)
     # 조회하여 정보가 있으면 프로필 정보 화면으로 데이터를 넘겨준다.
-    context = {"profile": profile}
+
+    # 명소 답사하여 complete를 체크한 건수
+    complete_cnt = PlaceComplete.objects.filter(complete=True)
+    if complete_cnt:
+        complete_cnt 
+    else:
+         complete_cnt = 0
+
+    # 명소 전체 건수 조회
+    place_cnt = Place.objects.all()
+
+    if place_cnt:
+        place_cnt
+    else:
+        place_cnt = 0
+
+    # 진척률
+    progress_per = len(complete_cnt) * 100 / len(place_cnt)
+    print("progress_per : ", round(progress_per))        
+
+    context = {"user": user, "complete_cnt" : len(complete_cnt), "place_cnt" : len(place_cnt), "progress_per" : round(progress_per)}
     # return HttpResponse("ok")
     return render(request, "profile.html", context) 
 
@@ -91,17 +115,17 @@ def profile(request):
 def profile_edit(request, user_id):
     # 프로필 정보 화면에서 사용자 id를 가지고서 사용자 정보를 조회한다.
     profile = get_object_or_404(User, pk = user_id)
-
     # 프로필 정보 중 수정된 항목 데이터를 가지고서 작성완료버튼을 누른다.
     if request.method == "POST":
-        form = ProfileForm(data=request.POST, files = request.FILES, instance = profile)
+        form = ProfileForm(data=request.POST, files=request.FILES, instance = profile)
 
         # 수정된 데이터 항목이 유효한지 검증한다.
         if form.is_valid():
             profile = form.save(commit=False)
-            profile.username = request.user.username
             profile.save()
             return redirect("/user/profile/")
+        else:
+            print("form_error :", form.errors)
         
     # GET 방식으로, 넘겨진 프로필 정보를 화면에 보여준다.
     else:

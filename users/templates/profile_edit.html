@@ -1,15 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>My Profile</title>
-    </head>
-    <body>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">작성완료</button>
-        </form>
-    </body>
+{% extends 'base_user.html' %}
+
+{% block content %}
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px"></div>
+
+  <div>
+    <div style="margin:5px;padding:5px;">
+        {% if profile.profile_image %}
+        <span><img src="{{ profile.profile_image.url }}" width="100" height="100"><h1 style="float:left;margin:5px;padding:5px;">{{ profile.username }} 의 프로필 정보</h1></span>
+        {% else %}
+        <span><img src="" alt=""><h1> style="float:left;margin:5px;padding:5px;"{{ profile.username }} 의 프로필 정보</h1></span>
+        {% endif %}
+    </div>
+    <hr>
+    <form method="POST" class="login-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="flex-row">
+            <label class="lf--label" for="email"></label>
+            <input type="text" class="lf--input" name="email" placeholder='xxx@xxxx.xxx' required="" id="id_email" value="{{ profile.email }}">
+        </div>
+        <div class="flex-row">
+            <span>
+                <label class="lf--label" for="profile_image"></label>현재 : {{ profile.profile_image }}<br>
+                <input type="file" class='lf--input' name="profile_image" placeholder="프로필 사진" accept="image/*" required="" id="id_profile_image">
+            </span>           
+        </div>          
+        <div class="flex-row">
+            <label class="lf--label" for="description"></label>
+            <textarea class='lf--input' name="short_description" placeholder='Short Description' required="" id="id_short_description" rows="10" cols="30">{{ profile.short_description }}</textarea>
+        </div>     
+        <input class='lf--submit' type='submit' value='작성'>
+    </form>
+  </div> 
+  {% endblock %}
 </html>
