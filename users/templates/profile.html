@@ -27,6 +27,7 @@
         </div>
         <a href="{% url 'user:edit' user_id=user.id %}" style="padding:10px;">프로필 수정</a>
         <a href="{% url 'user:delete' user_id=user.id %}" style="padding:10px;">프로필 삭제</a>
+        <a href="{% url 'post:post_create' %}" style="padding:10px;">글 작성</a>
     </div>
 	<div class="counts">
         <dl>
