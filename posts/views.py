@@ -3,9 +3,11 @@ from django.urls import reverse
 from posts.models import Comment, Post, PostImage, PlaceComplete
 from posts.forms import CommentForm, PostForm
 from django.views.decorators.http import require_POST
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from seoul.models import Place
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+
 
 def main(request):
     posts = Post.objects.all()
@@ -63,34 +65,25 @@ def post_detail(request, post_id):
 @login_required
 def post_create(request):
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES)  
-
+        form = PostForm(request.POST)  
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
             post.save()
-            form.save_m2m()
-
-            places = request.POST.get("places", "")  
-            
-            valid_places = Place.objects.filter(name__in=places)  
-            print("유효한 장소:", valid_places)  
-            post.place.set(valid_places)  
 
             # 이미지 저장
-            for image_file in request.FILES.getlist("photo"):
+            for image_file in request.FILES.getlist("photo",[]):
                 PostImage.objects.create(post=post, photo=image_file)
 
+            # 장소 저장
             place = request.POST.get("place")
             if place:
                 place_name_list = [place_name.strip() for place_name in place.split(",")]
                 for place_name in place_name_list:
-                    place, _ = Post.objects.get_or_create(
-                        name = place_name,
-                    )
-                    post.place.set(place)
+                    place, _ = Place.objects.get_or_create(name=place_name)  # Post -> Place 수정
+                    post.place.add(place)  
 
-            return redirect("post:main")  
+            return redirect("post:post_detail")  
         else:
             print("Form Errors:", form.errors)  
 
@@ -101,6 +94,7 @@ def post_create(request):
     context = {
         "form": form, 
         "places": places,
+        "is_edit":False,
     }
     return render(request, "make_post.html", context)
 # 여행 계획 수정
@@ -112,26 +106,35 @@ def post_edit(request, post_id):
         return HttpResponseForbidden("권한이 없습니다.")  # 다른 사용자가 수정 불가능
 
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            form.save_m2m()
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
 
-            # 여행 장소 수정
-            places = request.POST.getlist("places")
-            post.place.set(places)
+            if "photo" in request.FILES:
+                for image_file in request.FILES.getlist("photo"):
+                    PostImage.objects.create(post=post, photo=image_file)
 
-            # 이미지 추가
-            for image_file in request.FILES.getlist("images"):
-                PostImage.objects.create(post=post, photo=image_file)
+            post.place.clear()
+            place = request.POST.get("place", "").strip()
+            if place:
+                place_name_list = [place_name.strip() for place_name in place.split(",")]
+                place_name_list = [name for name in place_name_list if name]
+                for place_name in place_name_list:
+                    place, _ = Place.objects.get_or_create(name=place_name)
+                    post.place.add(place)
 
             return redirect("post:post_detail", post_id=post.id)
     else:
         form = PostForm(instance=post)
-    places = Place.objects.all()
+    existing_places = ", ".join([place.name for place in post.place.all()])
     context = {
         "form": form, 
-        "places": places, 
-        "post": post
+        "places": Place.objects.all(),
+        "existing_places": existing_places, 
+        "post": post,
+        "is_edit":True,
         }
 
     return render(request, "make_post.html", context )
@@ -183,3 +186,17 @@ def place_uncomplete(request, post_id, place_id):
         print(f" 완료 데이터 없음: post_id={post_id}, place_id={place_id}, user={request.user}")
     
     return redirect(reverse("post:post_detail", kwargs={"post_id": post.id}))
+
+@login_required
+@csrf_exempt
+def delete_post_image(request, image_id):
+    try:
+        image = PostImage.objects.get(id=image_id)
+
+        if image.post.user != request.user:
+            return JsonResponse({"error": "삭제 권한이 없습니다."}, status=403)
+
+        image.delete()
+        return JsonResponse({"success": True}, status=200)
+    except PostImage.DoesNotExist:
+        return JsonResponse({"error": "이미지를 찾을 수 없습니다."}, status=404)

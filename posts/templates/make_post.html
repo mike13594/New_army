@@ -6,13 +6,16 @@
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+        {% if is_edit %}
+        <h1> 수정</h1>
+        {% endif %}
         <div>
             <label>제목</label>
-            <input type="text" name="title">
+            <input type="text" name="title" value="{% if is_edit %}{{ post.title }}{% endif %}">
         </div>
         <div>
             <label>내용</label>
-            <textarea name="content" cols="50" rows="10"></textarea>
+            <textarea name="content" cols="50" rows="10">{% if is_edit %}{{ post.content }}{% endif %}</textarea>
         </div>
         <div>
           <div>
@@ -30,11 +33,29 @@
           <button type="button" value="추가" id="add">추가</button>      
         </div>
         <div>
-          <br><div id="container"></div> <br>
+          <br><div id="container"> 
+            {% if is_edit %}
+                기존 장소는 {{ existing_places }}
+            {% endif %}</div> <br>
             <label>이미지</label>
-            <input name="thumbnail" type="file" multiple>
+            <input name="photo" type="file" multiple>
         </div>
-        <button type="submit" class ="btn btn-primary">작성</button>
+        {% if is_edit and post.postimage_set.all %}
+        <div>
+            <label>기존 이미지:</label>
+            <div>
+                {% for image in post.postimage_set.all %}
+                    <div id="image-container-{{ image.id }}" style="display:inline-block; position:relative;">
+                        <img src="{{ image.photo.url }}" alt="이미지" width="100">
+                        <button type="button" class="delete-image-btn" data-image-id="{{ image.id }}" style="position:absolute; top:0; right:0; background:red; color:white; border:none; cursor:pointer;">X</button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+        <button type="submit" class ="btn btn-primary">
+          {% if is_edit %}수정 완료{% else %}작성{% endif %}
+        </button>
         <input type="text" id="place" name="place" value="">
     </form>
 </div>
@@ -52,6 +73,31 @@
 
 
 </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll(".delete-image-btn").forEach(function (button) {
+          button.addEventListener("click", function () {
+              const imageId = this.getAttribute("data-image-id");
+              const imageContainer = document.getElementById("image-container-" + imageId);
+  
+              fetch(`/post/delete-image/${imageId}/`, {
+                  method: "POST",
+                  headers: {
+                      "X-CSRFToken": "{{ csrf_token }}",
+                      "Content-Type": "application/json"
+                  }
+              })
+              .then(response => {
+                  if (response.ok) {
+                      imageContainer.remove();  
+                  } else {
+                      alert("이미지 삭제에 실패했습니다.");
+                  }
+              });
+          });
+      });
+  });
+  </script>
 {% endblock %}
 
 </html>

@@ -13,4 +13,6 @@ urlpatterns = [
     path("<int:post_id>/delete/", views.post_delete, name = "post_delete"),
     path("<int:post_id>/<int:place_id>/complete/", views.place_complete, name="place_complete"),
     path("<int:post_id>/<int:place_id>/uncomplete/", views.place_uncomplete, name="place_uncomplete"), 
+    path("post/delete-image/<int:image_id>/", views.delete_post_image, name="post:delete_image"),
 ]
+

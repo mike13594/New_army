@@ -18,15 +18,10 @@ class CommentForm(forms.ModelForm):
         }
 
 class PostForm(forms.ModelForm):
-    place = forms.ModelMultipleChoiceField(
-        queryset= Place.objects.all(),
-        widget = forms.CheckboxSelectMultiple,
-        required=True
-    )
+    
     class Meta:
         model = Post
         fields = [
             "title",
             "content",
-            "place",
         ]

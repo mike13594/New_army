@@ -6,7 +6,18 @@
             <h1>{{ post.title }}</h1>
             <p>작성자: {{ post.user.id }} | 작성일: {{ post.created }}</p>
             <hr>
-            <p>{{ post.content }}</p>   
+            <p>{{ post.content }}</p>
+            {% if post.postimage_set.all %}
+                <h3>게시글 이미지</h3>
+                <div class="w3-row">
+                    {% for image in post.postimage_set.all %}
+                        <div class="w3-quarter">
+                            <img src="{{ image.photo.url }}" class="card-img-top" alt="게시글 이미지" width="300" height="200">
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <hr>   
 
             <h3>여행 장소</h3>
             <div class="w3-row">            
