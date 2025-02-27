@@ -3,9 +3,11 @@ from django.urls import reverse
 from posts.models import Comment, Post, PostImage, PlaceComplete
 from posts.forms import CommentForm, PostForm
 from django.views.decorators.http import require_POST
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from seoul.models import Place
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+
 
 def main(request):
     posts = Post.objects.all()
@@ -23,7 +25,7 @@ def comment_add(request, post_id):
         comment.post = post
         comment.save()
 
-        return redirect("post_detail", post_id=comment.post.id) #url 추가 , 댓글 생성한 후 리다이렉트할 페이지 post_detail?
+        return redirect("post:post_detail", post_id=comment.post.id) #url 추가 , 댓글 생성한 후 리다이렉트할 페이지 post_detail?
 
 # 댓글 삭제    
 @require_POST
@@ -33,7 +35,7 @@ def comment_delete(request, comment_id):
     if comment.user.id == request.user.id:
         post_id=comment.post.id
         comment.delete()
-        return redirect("post_detail", post_id=post_id) #url 추가, 댓글 삭제한 후 리다이렉트할 페이지 post_detail?
+        return redirect("post:post_detail", post_id=post_id) #url 추가, 댓글 삭제한 후 리다이렉트할 페이지 post_detail?
     
     else:
         return HttpResponseForbidden("이 댓글을 삭제할 권한이 없습니다")
@@ -63,31 +65,38 @@ def post_detail(request, post_id):
 @login_required
 def post_create(request):
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST)  
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
             post.save()
 
-            # 여행 장소 추가
-            places = request.POST.getlist("places")
-            post.place.set(places)
-
             # 이미지 저장
-            for image_file in request.FILES.getlist("images"):
+            for image_file in request.FILES.getlist("photo",[]):
                 PostImage.objects.create(post=post, photo=image_file)
 
-            return redirect("main")  # 글 작성 후 메인 페이지로 이동
+            # 장소 저장
+            place = request.POST.get("place")
+            if place:
+                place_name_list = [place_name.strip() for place_name in place.split(",")]
+                for place_name in place_name_list:
+                    place, _ = Place.objects.get_or_create(name=place_name)  # Post -> Place 수정
+                    post.place.add(place)  
+
+            return redirect("post:post_detail")  
+        else:
+            print("Form Errors:", form.errors)  
+
     else:
         form = PostForm()
 
-    places = Place.objects.all()  # 전체 여행 장소 목록 가져오기
-    print(f"[post_create] 데이터:{places}")
-    context={
+    places = Place.objects.all()
+    context = {
         "form": form, 
         "places": places,
-        }
-    return render(request, "post_form.html", context)
+        "is_edit":False,
+    }
+    return render(request, "make_post.html", context)
 # 여행 계획 수정
 @login_required
 def post_edit(request, post_id):
@@ -97,29 +106,38 @@ def post_edit(request, post_id):
         return HttpResponseForbidden("권한이 없습니다.")  # 다른 사용자가 수정 불가능
 
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
 
-            # 여행 장소 수정
-            places = request.POST.getlist("places")
-            post.place.set(places)
+            if "photo" in request.FILES:
+                for image_file in request.FILES.getlist("photo"):
+                    PostImage.objects.create(post=post, photo=image_file)
 
-            # 이미지 추가
-            for image_file in request.FILES.getlist("images"):
-                PostImage.objects.create(post=post, photo=image_file)
+            post.place.clear()
+            place = request.POST.get("place", "").strip()
+            if place:
+                place_name_list = [place_name.strip() for place_name in place.split(",")]
+                place_name_list = [name for name in place_name_list if name]
+                for place_name in place_name_list:
+                    place, _ = Place.objects.get_or_create(name=place_name)
+                    post.place.add(place)
 
-            return redirect("post_detail", post_id=post.id)
+            return redirect("post:post_detail", post_id=post.id)
     else:
         form = PostForm(instance=post)
-    places = Place.objects.all()
+    existing_places = ", ".join([place.name for place in post.place.all()])
     context = {
         "form": form, 
-        "places": places, 
-        "post": post
+        "places": Place.objects.all(),
+        "existing_places": existing_places, 
+        "post": post,
+        "is_edit":True,
         }
 
-    return render(request, "post_form.html", context )
+    return render(request, "make_post.html", context )
 
 # 여행 계획 삭제
 
@@ -128,7 +146,7 @@ def post_delete(request, post_id):
     if post.user != request.user:
         return HttpResponseForbidden("권한이 없습니다.")
     post.delete()
-    return redirect("main") #포스트 삭제하고 어디 주소로 보내야할지 정해야함
+    return redirect("post:main") #포스트 삭제하고 어디 주소로 보내야할지 정해야함
 
 # 완료
 @login_required
@@ -149,7 +167,7 @@ def place_complete(request, post_id, place_id):
         place_complete.complete = True
         place_complete.save()
 
-    return redirect(reverse("post_detail", kwargs={"post_id": post.id}))
+    return redirect(reverse("post:post_detail", kwargs={"post_id": post.id}))
 
 # 완료 해제
 @login_required
@@ -167,4 +185,18 @@ def place_uncomplete(request, post_id, place_id):
     except PlaceComplete.DoesNotExist:
         print(f" 완료 데이터 없음: post_id={post_id}, place_id={place_id}, user={request.user}")
     
-    return redirect(reverse("post_detail", kwargs={"post_id": post.id}))
+    return redirect(reverse("post:post_detail", kwargs={"post_id": post.id}))
+
+@login_required
+@csrf_exempt
+def delete_post_image(request, image_id):
+    try:
+        image = PostImage.objects.get(id=image_id)
+
+        if image.post.user != request.user:
+            return JsonResponse({"error": "삭제 권한이 없습니다."}, status=403)
+
+        image.delete()
+        return JsonResponse({"success": True}, status=200)
+    except PostImage.DoesNotExist:
+        return JsonResponse({"error": "이미지를 찾을 수 없습니다."}, status=404)

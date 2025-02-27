@@ -1,5 +1,6 @@
 from django import forms
 from posts.models import Comment, Post
+from seoul.models import Place
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -17,10 +18,10 @@ class CommentForm(forms.ModelForm):
         }
 
 class PostForm(forms.ModelForm):
+    
     class Meta:
         model = Post
         fields = [
             "title",
             "content",
-            "place",
         ]
